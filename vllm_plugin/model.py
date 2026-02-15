@@ -171,7 +171,18 @@ from vllm.multimodal.processing import (
     PromptUpdate,
     PromptUpdateDetails,
 )
-from vllm.multimodal.profiling import BaseDummyInputsBuilder, ProcessorInputs
+# vLLM 0.15+ moved profiling classes to vllm.multimodal.processing
+try:
+    from vllm.multimodal.processing import BaseDummyInputsBuilder, ProcessorInputs
+except ImportError:
+    try:
+        from vllm.multimodal.processing.dummy_inputs import (
+            BaseDummyInputsBuilder,
+            ProcessorInputs,
+        )
+    except ImportError:
+        # Fallback for older vLLM versions
+        from vllm.multimodal.profiling import BaseDummyInputsBuilder, ProcessorInputs
 
 # Import VibeVoice components
 from vibevoice.modular.modular_vibevoice_tokenizer import (
